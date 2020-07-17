@@ -1,6 +1,7 @@
 package citybike.classes;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 import static citybike.Main.userCounter;
 
@@ -41,28 +42,46 @@ public class User extends Rent {
 		this.currentlyRentedBike.setState(Bike.BikeCondition.InService);
 
 		// Assigning the bike id to the rent class
-		super.setBikeId(currentlyRentedBike.getBikeID());
+		this.setBikeId(currentlyRentedBike.getBikeID());
+
+		// Storing the amount of hours the bike is rented for
+		this.setNumberOfHoursRented(numberOfHours);
 
 		// Assigning the current date and time to the rent class
 		LocalDateTime currentDateTime = LocalDateTime.now();
-		super.setRentStart(currentDateTime);
+		this.setRentStart(currentDateTime);
 
 		// Assigning the paid time to the rent class, will be used to determine if the bike is returned late
-		super.setRentEnd(currentDateTime.plusHours(numberOfHours));
+		this.setRentEnd(currentDateTime.plusHours(this.getNumberOfHoursRented()));
 
 		System.out.println(this.name + " " + this.surname + " thank you for renting bike " + this.currentlyRentedBike.getBikeID() + " from our " + station.getLocation() + " station");
 	}
 
 	public void returnCurrentlyRentedBike(Station station) {
 		if (!station.checkIfFull()) {
-			System.out.println(this.name + " " + this.surname + " thank you for returning bike " + this.currentlyRentedBike.getBikeID() + " to our " + station.getLocation() + " station");
+			// Determining how long the bike has been actually rented for
+			LocalDateTime currentDateTime = LocalDateTime.now();
+			long hoursElapsed = ChronoUnit.HOURS.between(currentDateTime, this.getRentEnd());
 
-			// TODO - remove bike id from rent, calculate cost - add late fees
+			// Cost of rent
+			double totalCostOfRent;
 
+			// Calculating how much rent the user will pay
+			if (hoursElapsed > this.getNumberOfHoursRented()) {
+				totalCostOfRent = (this.pricePerHour * this.getNumberOfHoursRented()) + (this.lateFeePerHour * (hoursElapsed - this.getNumberOfHoursRented()));
 
+				System.out.println(String.format("%s %s thank you for returning bike %o to our %s station\nYou will be charged: €%.2f Due to the addition of late fees", this.name, this.surname, this.currentlyRentedBike.getBikeID(), station.getLocation(), totalCostOfRent));
+			} else {
+				totalCostOfRent = this.pricePerHour * hoursElapsed;
+
+				System.out.println(String.format("%s %s thank you for returning bike %o to our %s station\nYou will be charged: €%.2f", this.name, this.surname, this.currentlyRentedBike.getBikeID(), station.getLocation(), totalCostOfRent));
+			}
+
+			// Returning the bike to a station
 			this.currentlyRentedBike.setState(Bike.BikeCondition.CanBeRented);
 			station.addBike(this.currentlyRentedBike);
 			this.currentlyRentedBike = null;
+
 		} else {
 			System.out.println("I'm sorry " + this.name + " " + this.surname + " this station is full, please return your rented bike to a different station");
 		}
