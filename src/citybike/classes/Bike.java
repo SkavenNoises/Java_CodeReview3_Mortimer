@@ -43,4 +43,8 @@ public class Bike {
 	public BikeCondition getState() {
 		return state;
 	}
+
+	public void setState(BikeCondition state) {
+		this.state = state;
+	}
 }

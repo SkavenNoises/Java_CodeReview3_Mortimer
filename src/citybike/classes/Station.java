@@ -10,7 +10,7 @@ public class Station {
 	public Station(int stationId, String location) {
 		this.stationId = stationId;
 		this.location = location;
-		this.bikesInStation = new HashMap<>();
+		bikesInStation = new HashMap<>();
 	}
 
 	public int getStationId() {
@@ -26,10 +26,19 @@ public class Station {
 	}
 
 	public void addBike(Bike bike) {
-		if (bike.getState() == Bike.BikeCondition.InService) {
-				bikesInStation.put(bike.getBikeID(), bike);
+		bikesInStation.put(bike.getBikeID(), bike);
+	}
+
+	public void removeBike(Bike bike) {
+		if (this.bikesInStation.containsKey(bike.getBikeID())) {
+			if (bike.getState() == Bike.BikeCondition.CanBeRented) {
+				bikesInStation.remove(bike.getBikeID());
+				System.out.println("Bike number: " + bike.getBikeID() + " has been removed from " + this.location + " station");
+			} else {
+				System.out.println("Please select a valid bike");
+			}
 		} else {
-			System.out.println("Please return a valid bike");
+			System.out.println("Bike does not exist in this station");
 		}
 	}
 }

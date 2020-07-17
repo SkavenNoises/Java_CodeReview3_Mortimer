@@ -2,12 +2,14 @@ package citybike;
 
 import citybike.classes.Bike;
 import citybike.classes.Station;
+import citybike.classes.User;
 
 import java.util.HashMap;
 
 public class Main {
-	// BikeID Counter
+	// ID counters
 	public static int bikeCounter = 0;
+	public static int userCounter = 0;
 
 	public static void main(String[] args) {
 		// Creation of the bike objects
@@ -27,7 +29,7 @@ public class Main {
 		Bike bike14 = new Bike(Bike.BikeColour.Silver, Bike.BikeCondition.CanBeRented);
 		Bike bike15 = new Bike(Bike.BikeColour.Silver, Bike.BikeCondition.CanBeRented);
 
-		// Putting all created bikes into the hashmap
+		// Storing all created bikes into the hashmap
 		HashMap<Integer, Bike> bikeHashMap = new HashMap<>();
 		bikeHashMap.put(bike1.getBikeID(), bike1);
 		bikeHashMap.put(bike2.getBikeID(), bike2);
@@ -50,6 +52,7 @@ public class Main {
 		Station station2 = new Station(2, "MuseumsQuartier");
 		Station station3 = new Station(3, "Donauinsel");
 
+		// Storing all the created stations in a hashmap
 		HashMap<Integer, Station> stationHashMap = new HashMap<>();
 		stationHashMap.put(station1.getStationId(), station1);
 		stationHashMap.put(station2.getStationId(), station2);
@@ -64,6 +67,16 @@ public class Main {
 		stationHashMap.get(2).addBike(bikeHashMap.get(14));
 		stationHashMap.get(2).addBike(bikeHashMap.get(15));
 
+		// Creating the 4 users
+		User user1 = new User("John", "Smith");
+		User user2 = new User("Jane", "Doe");
+		User user3 = new User("Howard", "Baker");
+		User user4 = new User("Hannah", "Jefferies");
 
+		// User rents bike from station
+		user1.setCurrentlyRentedBike(stationHashMap.get(1).getBikesInStation().get(9), stationHashMap.get(1));
+
+		// User returns bike to a different station
+		user1.returnCurrentlyRentedBike(stationHashMap.get(2));
 	}
 }
