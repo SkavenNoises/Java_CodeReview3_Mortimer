@@ -41,10 +41,14 @@ public class User {
 	}
 
 	public void returnCurrentlyRentedBike(Station station) {
-		System.out.println(this.name + " " + this.surname + " thank you for returning bike " + this.currentlyRentedBike.getBikeID() + " to our " + station.getLocation() + " station");
+		if (!station.checkIfFull()) {
+			System.out.println(this.name + " " + this.surname + " thank you for returning bike " + this.currentlyRentedBike.getBikeID() + " to our " + station.getLocation() + " station");
 
-		this.currentlyRentedBike.setState(Bike.BikeCondition.CanBeRented);
-		station.addBike(this.currentlyRentedBike);
-		this.currentlyRentedBike = null;
+			this.currentlyRentedBike.setState(Bike.BikeCondition.CanBeRented);
+			station.addBike(this.currentlyRentedBike);
+			this.currentlyRentedBike = null;
+		} else {
+			System.out.println("I'm sorry " + this.name + " " + this.surname + " this station is full, please return your rented bike to a different station");
+		}
 	}
 }

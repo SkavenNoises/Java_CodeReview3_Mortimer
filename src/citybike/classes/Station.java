@@ -7,6 +7,8 @@ public class Station {
 	private String location;
 	private HashMap<Integer, Bike> bikesInStation;
 
+	private final int totalBikeCapacity = 5;
+
 	public Station(int stationId, String location) {
 		this.stationId = stationId;
 		this.location = location;
@@ -39,6 +41,14 @@ public class Station {
 			}
 		} else {
 			System.out.println("Bike does not exist in this station");
+		}
+	}
+
+	public boolean checkIfFull() {
+		if (bikesInStation.size() <= totalBikeCapacity) {
+			return false;
+		} else {
+			return true;
 		}
 	}
 }
