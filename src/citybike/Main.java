@@ -74,7 +74,7 @@ public class Main {
 		User user4 = new User("Hannah", "Jefferies");
 
 		// User rents bike from station
-		user1.setCurrentlyRentedBike(stationHashMap.get(1).getBikesInStation().get(9), stationHashMap.get(1));
+		user1.setCurrentlyRentedBike(stationHashMap.get(1).getBikesInStation().get(9), stationHashMap.get(1), 2);
 
 		// User returns bike to a different station
 		user1.returnCurrentlyRentedBike(stationHashMap.get(2));
