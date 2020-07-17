@@ -70,11 +70,11 @@ public class User extends Rent {
 			if (hoursElapsed > this.getNumberOfHoursRented()) {
 				totalCostOfRent = (this.pricePerHour * this.getNumberOfHoursRented()) + (this.lateFeePerHour * (hoursElapsed - this.getNumberOfHoursRented()));
 
-				System.out.println(String.format("%s %s thank you for returning bike %o to our %s station\nYou will be charged: €%.2f Due to the addition of late fees", this.name, this.surname, this.currentlyRentedBike.getBikeID(), station.getLocation(), totalCostOfRent));
+				System.out.println(String.format("%s %s thank you for returning bike %s to our %s station\nYou will be charged: €%.2f Due to the addition of late fees", this.name, this.surname, this.currentlyRentedBike.getBikeID(), station.getLocation(), totalCostOfRent));
 			} else {
 				totalCostOfRent = this.pricePerHour * hoursElapsed;
 
-				System.out.println(String.format("%s %s thank you for returning bike %o to our %s station\nYou will be charged: €%.2f", this.name, this.surname, this.currentlyRentedBike.getBikeID(), station.getLocation(), totalCostOfRent));
+				System.out.println(String.format("%s %s thank you for returning bike %s to our %s station\nYou will be charged: €%.2f", this.name, this.surname, this.currentlyRentedBike.getBikeID(), station.getLocation(), totalCostOfRent));
 			}
 
 			// Returning the bike to a station
